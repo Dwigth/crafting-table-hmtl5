@@ -44,11 +44,15 @@ const app = new function () {
         },
         getProducts: function () {
             return products;
+        },
+        getMaterialsFromCraftingTable: function () {
+            return CraftingTable.materials;
         }
     };
     var octopus = {
         init: function () {
             materialsView.init();
+            craftingTableView.init();
         },
         addMaterialToCraftingTable: function (material) {
             CraftingTable.materials.push(material);
@@ -71,9 +75,15 @@ const app = new function () {
     };
     var craftingTableView = {
         init: function () {
-
+            this.craftingTableContainer = document.querySelector('.crafting-table-container');
+            this.render();
         },
         render: function () {
+            const l = model.getMaterialsFromCraftingTable().length;
+            for (let i = 0; i < l; i++) {
+                let materialDiv = `<div onclick="" class="material-item">Empty</div>`;
+                this.craftingTableContainer.innerHTML += materialDiv;
+            }
 
         }
     };
