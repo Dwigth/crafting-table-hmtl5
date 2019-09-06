@@ -16,13 +16,13 @@
     order: 0;
     border-right: 1px solid saddlebrown;
 }
-.material-panel-container, .crafting-table-container{
+.material-panel-container, .crafting-table-container,.products-container{
     width: 100%;
     display: inline-flex;
     flex-wrap:wrap;
     flex-direction: row;
 }
-.material-item,.crafting-table-item{
+.material-item,.crafting-table-item,.product-item{
     width: 33.3%;
     flex-grow:2;
     height: 80px;
