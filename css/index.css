@@ -21,6 +21,7 @@
     display: inline-flex;
     flex-wrap:wrap;
     flex-direction: row;
+    align-items: stretch
 }
 .material-item,.crafting-table-item,.product-item{
     width: 33.3%;

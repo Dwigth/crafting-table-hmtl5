@@ -123,14 +123,16 @@ const app = new function () {
         render: function () {
             this.productContainer.innerHTML = "";
             const products = model.getProducts();
-            const currentMaterials = CraftingTable.materials;
+            let currentMaterials = CraftingTable.materials;
+            currentMaterials = currentMaterials.filter(material => material != undefined);
             const p = this.getPosibleProducts(products, currentMaterials);
             const len = p.length;
             var i;
             for (i = 0; i < len; i++) {
                 const posibleProduct = p[i];
                 if (posibleProduct != undefined) {
-                    let product = `<div onclick="" class="product-item">${posibleProduct.name}</div>`;
+                    let phrase = this.getMaterialsToMakeProduct(posibleProduct, currentMaterials);
+                    let product = `<div onclick="" class="product-item">${posibleProduct.name}</div> ${phrase}`;
                     this.productContainer.innerHTML += product;
                 } else {
                     let product = `<div onclick="" class="product-item"></div>`;
@@ -141,13 +143,12 @@ const app = new function () {
         },
         getPosibleProducts: function (products, currentMaterials) {
             let posibleProducts = [];
-            currentMaterials = currentMaterials.filter(material => material != undefined);
             products.map(product => {
                 product.materials.map(_material => {
                     currentMaterials.map(material => {
                         if (_material.id_material === material.id) {
                             if (!posibleProducts.includes(product)) {
-                                console.log('Hey puedes construir esto ' + product.name);
+                                // console.log('Hey puedes construir esto ' + product.name);
                                 posibleProducts.push(product);
                             }
                         }
@@ -155,7 +156,21 @@ const app = new function () {
                 })
             })
             return posibleProducts;
+        },
+        getMaterialsToMakeProduct: function (product, materials) {
+            var phrase = "<ul class='product-item'>";
+            materials.map(material => {
+                let m = product.materials.find(material_ => material_.id_material === material.id);
+                if (m != undefined) {
+                    if (material.quantity < m.quantity) {
+                        // console.log(material, m);
+                        phrase += '<li>' + material.name + ' ' + (m.quantity - material.quantity) + '</li>';
+                    }
+                }
 
+            })
+            phrase += '</ul>';
+            return phrase;
         }
     };
     var craftingTableView = {
